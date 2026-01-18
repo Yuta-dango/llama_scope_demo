@@ -1,5 +1,5 @@
 # Llama Scope Demo
-
+![alt text](image.png)
 Llama-3.1-8B モデルと学習済み Sparse Autoencoder (SAE) を使用して、入力文の潜在表現（スパース特徴）を抽出・保存するCLIツール。
 
 ## 主な機能
