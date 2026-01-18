@@ -1,0 +1,25 @@
+# モデル設定
+model:
+  model_id: "meta-llama/Llama-3.1-8B"        # HF model ID
+  sae_release: "llama_scope_lxr_8x"          # SAE release名
+  device: "cpu"                               # cpu / cuda / mps (using cpu due to memory constraints)
+  dtype: "float32"                            # float32 / float16 / bfloat16
+
+# 処理対象レイヤ
+layers: [0, 1, 2, 6, 10, 14, 18, 22, 26, 30, 31]
+
+# 入出力設定
+input:
+  csv_path: "data/input.csv"                 # 入力CSVファイル
+  id_column: "id"                            # ID列の名前
+  text_column: "text"                        # 文章列の名前
+  category_column: "category"                # カテゴリ列の名前
+  categories: []                             # 空なら全カテゴリ処理
+
+output:
+  base_dir: "outputs"                        # 出力先ベースディレクトリ
+  run_id_format: "run_%Y%m%d_%H%M%S"        # 実行IDのフォーマット
+
+# トークン処理
+token:
+  exclude_bos: true                          # BOSトークン（|begin_of_text|）を出力から除外

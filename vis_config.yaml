@@ -1,0 +1,267 @@
+# 入出力設定
+input:
+  run_dir: "outputs/run_20251216_233041"    # SAE抽出結果のディレクトリ
+  input_csv: "data/input.csv"               # 元の入力CSVファイル（文章取得用）
+
+output:
+  base_dir: "vis_outputs"                    # 可視化出力先ベースディレクトリ
+
+# 共通設定
+common:
+  ax_cols: 3                                 # figの横方向のax数（固定）
+
+# active featの数ヒストグラム設定
+histogram:
+  bins: 30                                   # ヒストグラムのビン数
+
+# トークン比較設定
+token_comparison:
+  top_n: 10                                  # 表示する上位feature数
+  max_rank_score: 100                        # レア度計算の1位スコア
+
+# トークン指定比較（compare_tokens コマンド用）
+compare_tokens:
+  patterns:
+    - name: "apple_polysemy"
+      layers: []                             # 空なら全レイヤ
+      tokens:
+        - category: "polysemy_word_sense"
+          sentence_id: 1
+          token_pos: 5                       # " apple" in "I ate a red apple."
+        - category: "polysemy_word_sense"
+          sentence_id: 2
+          token_pos: 4                       # " apple" in "She peeled an apple..."
+        - category: "polysemy_word_sense"
+          sentence_id: 3
+          token_pos: 1                       # "Apple" in "Apple released..."
+
+# レイヤ間比較（compare_layers コマンド用）
+compare_layers:
+  patterns:
+    # 1. 1,2,3,21のapple + google
+    - name: "p01_compare_apple_tokens_and_google_brand"
+      layers: []
+      tokens:
+        - category: "polysemy_word_sense"
+          sentence_id: 1
+          token_pos: 5   # apple
+        - category: "polysemy_word_sense"
+          sentence_id: 2
+          token_pos: 4   # apple
+        - category: "polysemy_word_sense"
+          sentence_id: 3
+          token_pos: 1   # Apple
+        - category: "anomaly_multilingual_code"
+          sentence_id: 21
+          token_pos: 1   # Apple (word salad)
+        - category: "polysemy_word_sense"
+          sentence_id: 36
+          token_pos: 1   # Google
+
+    # 2. 全てのcapital（15は不要）
+    - name: "p02_compare_capital_all_occurrences"
+      layers: []
+      tokens:
+        - category: "polysemy_word_sense"
+          sentence_id: 4
+          token_pos: 2   # capital
+        - category: "polysemy_word_sense"
+          sentence_id: 5
+          token_pos: 5   # capital
+        - category: "polysemy_word_sense"
+          sentence_id: 6
+          token_pos: 4   # capital
+        - category: "polysemy_word_sense"
+          sentence_id: 7
+          token_pos: 5   # capital
+        - category: "polysemy_word_sense"
+          sentence_id: 8
+          token_pos: 4   # capital
+
+    # 3. 23,24,26のsoccerと25のsushi
+    - name: "p03_compare_soccer_baseball_sushi_tokens"
+      layers: []
+      tokens:
+        - category: "semantic_category"
+          sentence_id: 23
+          token_pos: 4   # soccer
+        - category: "semantic_category"
+          sentence_id: 24
+          token_pos: 4   # baseball
+        - category: "semantic_category"
+          sentence_id: 26
+          token_pos: 2   # occer (from "Soccer" split)
+        - category: "semantic_category"
+          sentence_id: 25
+          token_pos: 3   # sushi
+
+    # 4. 9,10のdog, cat4つ
+    - name: "p04_compare_dog_cat_4tokens_role_swap"
+      layers: []
+      tokens:
+        - category: "contextual_role_semantics"
+          sentence_id: 9
+          token_pos: 2   # dog
+        - category: "contextual_role_semantics"
+          sentence_id: 9
+          token_pos: 5   # cat
+        - category: "contextual_role_semantics"
+          sentence_id: 10
+          token_pos: 2   # cat
+        - category: "contextual_role_semantics"
+          sentence_id: 10
+          token_pos: 5   # dog
+
+    # 5. 11-13のballoon
+    - name: "p05_compare_balloon_vs_typo_ballon_tokens"
+      layers: []
+      tokens:
+        - category: "contextual_role_semantics"
+          sentence_id: 11
+          token_pos: 5   # balloon
+        - category: "contextual_role_semantics"
+          sentence_id: 12
+          token_pos: 2   # balloon
+        - category: "contextual_role_semantics"
+          sentence_id: 13
+          token_pos: 5   # ball (from "ballon")
+        - category: "contextual_role_semantics"
+          sentence_id: 13
+          token_pos: 6   # on   (from "ballon")
+
+    # 6. 2のsheと6のheと15の彼と20のhe
+    - name: "p06_compare_subject_pronouns_she_he_kare_he"
+      layers: []
+      tokens:
+        - category: "polysemy_word_sense"
+          sentence_id: 2
+          token_pos: 1   # She
+        - category: "polysemy_word_sense"
+          sentence_id: 6
+          token_pos: 1   # He
+        - category: "anomaly_multilingual_code"
+          sentence_id: 15
+          token_pos: 1   # 彼
+        - category: "anomaly_multilingual_code"
+          sentence_id: 20
+          token_pos: 1   # He
+
+    # 7. 29-31のit
+    - name: "p07_compare_pronoun_it_across_29_30_31"
+      layers: []
+      tokens:
+        - category: "pronoun_resolution"
+          sentence_id: 29
+          token_pos: 8   # it
+        - category: "pronoun_resolution"
+          sentence_id: 30
+          token_pos: 8   # it
+        - category: "pronoun_resolution"
+          sentence_id: 31
+          token_pos: 8   # it (prefix)
+
+    # 8. 27と28のmeeting
+    - name: "p08_compare_meeting_long_vs_short"
+      layers: []
+      tokens:
+        - category: "sentence_length_paraphrase"
+          sentence_id: 27
+          token_pos: 11  # meeting
+        - category: "sentence_length_paraphrase"
+          sentence_id: 28
+          token_pos: 4   # meeting
+
+    # 9. 17,18の雨
+    - name: "p09_compare_rain_jp_vs_code_rain"
+      layers: []
+      tokens:
+        - category: "anomaly_multilingual_code"
+          sentence_id: 17
+          token_pos: 1   # 雨
+        - category: "anomaly_multilingual_code"
+          sentence_id: 18
+          token_pos: 3   # rain
+
+    # 10. 14, 19, 32, 33の=
+    - name: "p10_compare_equals_tokens_across_math"
+      layers: []
+      tokens:
+        - category: "anomaly_multilingual_code"
+          sentence_id: 14
+          token_pos: 6   # =
+        - category: "anomaly_multilingual_code"
+          sentence_id: 19
+          token_pos: 4   # =
+        - category: "same_answer_math"
+          sentence_id: 32
+          token_pos: 6   # =
+        - category: "same_answer_math"
+          sentence_id: 33
+          token_pos: 6   # =
+
+    # 11. 32,33の3と5合計4つ
+    - name: "p11_compare_numbers_3_and_5_from_32_33"
+      layers: []
+      tokens:
+        - category: "same_answer_math"
+          sentence_id: 32
+          token_pos: 1   # 3
+        - category: "same_answer_math"
+          sentence_id: 32
+          token_pos: 5   # 5
+        - category: "same_answer_math"
+          sentence_id: 33
+          token_pos: 3   # 5
+        - category: "same_answer_math"
+          sentence_id: 33
+          token_pos: 5   # 3
+
+    # 12. 32から35の最後のトークン
+    - name: "p12_compare_last_tokens_of_32_33_34_35"
+      layers: []
+      tokens:
+        - category: "same_answer_math"
+          sentence_id: 32
+          token_pos: 6   # =
+        - category: "same_answer_math"
+          sentence_id: 33
+          token_pos: 6   # =
+        - category: "same_answer_math"
+          sentence_id: 34
+          token_pos: 10  # =
+        - category: "same_answer_math"
+          sentence_id: 35
+          token_pos: 10  # ?
+
+    # 13. 5, 37のisと38のin（NWP）
+    - name: "p13_compare_nwp_prefix_tokens_is_is_in"
+      layers: []
+      tokens:
+        - category: "polysemy_word_sense"
+          sentence_id: 5
+          token_pos: 3   # is
+        - category: "same_answer_noun"
+          sentence_id: 37
+          token_pos: 10  # is
+        - category: "same_answer_noun"
+          sentence_id: 38
+          token_pos: 8   # in
+
+    # 14. 19と20が予測外ってこと：19の9, 20のsun と 1のapple を比較
+    - name: "p14_compare_unexpected_targets_9_sun_apple"
+      layers: []
+      tokens:
+        - category: "anomaly_multilingual_code"
+          sentence_id: 19
+          token_pos: 5   # 9
+        - category: "anomaly_multilingual_code"
+          sentence_id: 20
+          token_pos: 8   # sun
+        - category: "polysemy_word_sense"
+          sentence_id: 1
+          token_pos: 5   # apple
+
+
+# トークナイズ結果表示（show-tokens コマンド用）
+show_tokens:
+  output_file: "tokenized.csv"               # 出力CSVファイル名
