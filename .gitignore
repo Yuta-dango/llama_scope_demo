@@ -9,5 +9,12 @@ wheels/
 # Virtual environments
 .venv
 
+# Environment variables
+.env
+
 # 出力
 outputs/*
+vis_outputs/
+data/
+
+AGENT.md
