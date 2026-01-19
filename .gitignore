@@ -15,6 +15,5 @@ wheels/
 # 出力
 outputs/*
 vis_outputs/
-data/
 
 AGENT.md

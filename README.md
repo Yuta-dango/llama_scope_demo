@@ -30,8 +30,7 @@ dtype: "float16"  # または "float32"
 device: "auto"    # "auto", "mps", "cuda", "cpu"
 
 # レイヤ設定
-layers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
-         16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+layers: [0, 1, 2, 6, 10, 14, 18, 22, 26, 30, 31]
 
 # 入力設定
 input_csvs:
@@ -116,11 +115,11 @@ outputs/
 - 色の濃さ（彩度）が、その特徴の「文脈における重要度（稀少性）」に対応しています。
 -  スコアリングのアルゴリズム
    - 各トークン内での特徴の値のランク（降順）に応じて100位までスコアを付与します（例：1位 100点、2位 99点...）。
-   - このスコアを全トークンで平均化します。スコアが低いほど、その文脈において「稀（レア）」で特徴的な活性化であることを示します。（ただし、入力の中での相対的な値であることに注意が必要）
+   - このスコアを全トークンで平均化します。スコアが低いほど、レアな特徴であることを示します。（ただし、入力の中での相対的な値であることに注意が必要）
 
 
 ## 参考リンク
 
-- [Llama Scope Paper](https://arxiv.org/abs/2410.20526)
-- [SAELens Documentation](https://jbloomaus.github.io/SAELens/)
-- [Llama 3.1 on Hugging Face](https://huggingface.co/meta-llama/Llama-3.1-8B)
+- [Llama Scope の論文](https://arxiv.org/abs/2410.20526)
+- [Hugging Faceで公開されているSAEの重み](https://huggingface.co/OpenMOSS-Team/Llama-Scope)
+- [Hugging Faceで公開されている/Llama-3.1-8Bの重み](https://huggingface.co/meta-llama/Llama-3.1-8B)
